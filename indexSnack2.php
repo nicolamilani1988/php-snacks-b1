@@ -16,9 +16,7 @@
             padding: 50px;
             width: 1140px;
             margin: auto;
-        }
-        
-        
+        }       
     </style>
 </head>
 
@@ -31,8 +29,10 @@
                 $nameLength = strlen($name);
 
                 $mail = $_GET['mail'];
-                $hasAt = strpos($mail, '@');                
-                $hasDot = strpos($mail, '.');
+                $hasAt = strpos($mail, '@');  // posizione del primo '@'             
+                $hasDot = strripos($mail, '.'); //posizione dell'ultimo punto
+                $atCounter = substr_count($mail,'@'); //quanti '@' ci sono
+                
                 
                 $age = $_GET['age'];
                 $isNum = is_numeric($age);
@@ -40,12 +40,18 @@
                 // var_dump($hasAt);
                 // var_dump($hasDot);
                 // var_dump($isNum);
+                //var_dump($atCounter);
+                //var_dump($hasDot);
 
-              if($nameLength>3 && $hasAt && $hasDot && $isNum){
+              if($nameLength>3 && $hasAt>0 && ($hasAt+1)<strlen($mail) && $hasDot && $hasDot>$hasAt && $atCounter<2 && $isNum){
                   echo '<h1>ACCESSO RIUSCITO</h1>';
               } else {
                   echo '<h1>ACCESSO NEGATO</h1>';
-              }
+              };
+
+              //nega accesso se metto '@' come primo o ultimo carattere. 
+              //nega accesso se l'ultimo '.' non è successivo all'@',
+              //nega accesso se c'è più di un '@'.
               
             ?>
 
